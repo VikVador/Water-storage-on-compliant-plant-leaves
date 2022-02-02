@@ -2,13 +2,34 @@
 %                            Image reference
 %--------------------------------------------------------------------------
 % @ Victor Mangeleer
+% @ Arnaud Rémi
 %
-function A_cm_sq = img_ref(ref)
+function ref_value = img_ref(bkg, ref)
 %--------------
 % Documentation
 %--------------
-% Determine the number of pixels per cm^2
+% Process the reference image and determine the number of 
+% pixels per cm^2 where:
 %
-% - ref      : reference image
+% - bkg : path to the background
+% - ref : path to the reference image
 %
-A_cm_sq = nnz(ref);
+background   = imread(bkg);
+ref_shaped = imread(ref);
+ 
+% Substracting images (in absolute value)
+image = abs(background - ref_shaped);
+
+% Converting to gray scale
+image = im2gray(image);
+
+% Keeping gray values over threshold
+image = image > 40;
+
+% Filtering the noise
+image = imfilter(image, ones(15, 15)/(15 * 15));
+
+% Determine the reference value
+ref_value = nnz(image);
+
+end

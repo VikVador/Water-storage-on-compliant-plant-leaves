@@ -1,39 +1,38 @@
 %--------------------------------------------------------------------------
-%                            Image pipeline
+%                            Image processing
 %--------------------------------------------------------------------------
 % @ Victor Mangeleer
+% @ Arnaud Rémi
 %
-function image = img_pipeline(bkg, img, treshold, filter)
+function img_processing(bkg, img_shaped, img_processed, treshold, filter)
 %--------------
 % Documentation
 %--------------
 % Process the image for computation where:
 %
-% - Bkg      : Background image
-% - Img      : Image to be processed
+% - bkg           : path to the background image
+% - img_shaped    : path to the shaped image
+% - img_processed : path to the processed image
 % - trehsold : defines which part of the grayscale is conserved
 % - filter   : defined the intensity of the filter over the image
 %
+% Loading the image and the background
+background   = imread(bkg);
+image_shaped = imread(img_shaped);
+ 
 % Substracting images (in absolute value)
-image = abs(bkg - img);
-
-imshow(image);
-waitforbuttonpress;
+image = abs(background - image_shaped);
 
 % Converting to gray scale
 image = im2gray(image);
 
-imshow(image);
-waitforbuttonpress;
-
 % Keeping gray values over threshold
 image = image > treshold;
-
-imshow(image);
-waitforbuttonpress;
 
 % Filtering the noise
 image = imfilter(image, ones(filter, filter)/(filter * filter));
 
-imshow(image);
-waitforbuttonpress;
+% Saving the processed image
+imwrite(image, img_processed);
+
+end
