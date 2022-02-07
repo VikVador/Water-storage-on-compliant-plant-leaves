@@ -19,7 +19,7 @@ function img_processing(bkg, img_shaped, img_processed, treshold, filter)
 % Loading the image and the background
 background   = imread(bkg);
 image_shaped = imread(img_shaped);
- 
+
 % Substracting images (in absolute value)
 image = abs(background - image_shaped);
 
