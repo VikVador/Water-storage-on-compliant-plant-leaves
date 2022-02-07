@@ -4,7 +4,7 @@
 % @ Victor Mangeleer
 % @ Arnaud Rémi
 %
-function img_processing(bkg, img_shaped, img_processed, treshold, filter)
+function img_processing(bkg, img_shaped, img_processed, treshold, filter, debug)
 %--------------
 % Documentation
 %--------------
@@ -22,15 +22,31 @@ image_shaped = imread(img_shaped);
 
 % Substracting images (in absolute value)
 image = abs(background - image_shaped);
+if debug == 1
+    imshow(image);
+    waitforbuttonpress;
+end
 
 % Converting to gray scale
 image = im2gray(image);
+if debug == 1
+    imshow(image);
+    waitforbuttonpress;
+end
 
 % Keeping gray values over threshold
 image = image > treshold;
+if debug == 1
+    imshow(image);
+    waitforbuttonpress;
+end
 
 % Filtering the noise
 image = imfilter(image, ones(filter, filter)/(filter * filter));
+if debug == 1
+    imshow(image);
+    waitforbuttonpress;
+end
 
 % Saving the processed image
 imwrite(image, img_processed);

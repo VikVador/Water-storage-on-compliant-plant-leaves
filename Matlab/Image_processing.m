@@ -46,7 +46,7 @@ cp_c = [293.5 322.5 1532 1023];
 trsh_c = 40;
 
 % Filter
-flt_c = 10;
+flt_c = 2;
 
 % Information on the terminal
 img_terminal(2);
@@ -110,9 +110,9 @@ for i = 1 : length(S_raw_name)
 
     % Processing
     img_processing(S_bkg_save, img_shaped_path, img_processed_path, ...
-                   trsh_s, flt_s)
+                   trsh_s, flt_s, 1)
 end
-
+ 
 % Surfaces
 for i = 1 : length(C_raw_name)
 
@@ -124,7 +124,7 @@ for i = 1 : length(C_raw_name)
 
     % Processing
     img_processing(C_bkg_save, img_shaped_path, img_processed_path, ...
-                   trsh_c, flt_c)
+                   trsh_c, flt_c, 1)
 end
 
 % Information on the terminal

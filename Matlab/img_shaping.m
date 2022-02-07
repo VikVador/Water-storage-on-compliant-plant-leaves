@@ -22,7 +22,7 @@ function img_shaping(img_raw, img_save, resize, crop)
     img_shaped = imresize(img_shaped , resize);
     
     % Cropping the image
-    img_shaped = imcrop(img_shaped, crop);
+    %img_shaped = imcrop(img_shaped, crop);
     
     % Saving the image
     imwrite(img_shaped, img_save);
