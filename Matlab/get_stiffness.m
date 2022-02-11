@@ -13,7 +13,7 @@ function [k] = get_stiffness(alpha, m, L, g)
 if nargin == 3
     g = 9.81;
 end
-k = m * L * g * cos(alpha) / (2 * alpha);
+k = abs(m * L * g * cos(alpha) / (2 * alpha));
 
 if ~isfinite(k)
     disp('Warning : infinite stiffness');
