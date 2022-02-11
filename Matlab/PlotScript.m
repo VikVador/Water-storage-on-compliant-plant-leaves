@@ -182,7 +182,6 @@ ylabel('$\mu$ [mm]', 'Fontsize', 16, 'interpreter', 'latex');
 xlabel('$t$ [s]', 'Fontsize', 16, 'interpreter', 'latex');
 set(gca,'Fontsize', 12);
 
-
 %%
 % T = table(time, R, 'VariableNames', {'time', 'mass'});
 % writetable(T, 'first');
