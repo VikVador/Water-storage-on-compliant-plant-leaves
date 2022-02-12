@@ -1,6 +1,8 @@
 %--------------------------------------------------------------------------
 %
-%                            Image processing
+%
+%                             Image Processing
+%
 %
 %--------------------------------------------------------------------------
 % @ Victor Mangeleer
@@ -11,130 +13,108 @@
 %--------------
 % This script has for purpose to shape as well as to process all the images 
 % obtained during our experiments. In order to use it, one must place in 
-% the folder "Experiments/Initial/..." all the raw data.
+% the folder "Experiments" all the raw data.
 %
-% Information on the terminal
-img_terminal(1);
+addpath('Functions/');
 %--------------------------------------------------------------------------
-%                                 Parameters
+%
+%                              Script Parameters
+%
 %--------------------------------------------------------------------------
-%--------
-% Surface
-%--------
-% Resizing
-rz_s = 0.5;
+% Run the script on debug mode (See step by step processing)
+debug_mode = false;
 
-% Crop position
-cp_s = [293.5 322.5 1532 1023];
+% Run the script to determine the cropping position
+cropping_mode =  false;
 
-% Threshold
-trsh_s = 40;
-
-% Filter
-flt_s = 5;
-
-%----------
-% Curvature
-%----------
-% Resizing 
-rz_c = 0.5;
-
-% Crop position
-cp_c = [293.5 322.5 1532 1023];
-
-% Threshold
-trsh_c = 40;
-
-% Filter
-flt_c = 2;
-
-% Information on the terminal
-img_terminal(2);
+% Information over the terminal
+img_terminal(1, false);
 %--------------------------------------------------------------------------
+%
+%                           Processing Parameters
+%
+%--------------------------------------------------------------------------
+% Resizing factor
+rz = 0.5;
+
+% Threshold value
+trsh = 30;
+
+% Filter intensity
+flt = 5;
+
+% Cropping position
+cp = [1034.5 392.5 1263 582];
+
+% Information over the terminal
+img_terminal(2, cropping_mode);
+%--------------------------------------------------------------------------
+%
 %                              Loading files
+%
 %--------------------------------------------------------------------------
 % Load all the images, backgrounds, reference and paths
 img_loading;
 
-% Information on the terminal
-img_terminal(3);
+% Information over the terminal
+img_terminal(3, cropping_mode);
+
 %--------------------------------------------------------------------------
+%
+%                          Cropping determination
+%
+%--------------------------------------------------------------------------
+if(cropping_mode == true)
+
+    % Enters cropping mode to determine cropping box dimensions
+    img_shaped = imresize(imread(PTS_background) , rz);
+    img_shaped = imcrop(img_shaped);
+
+    % Stopping the script
+    return
+
+end
+%--------------------------------------------------------------------------
+%
 %                                 Shaping
+%
 %--------------------------------------------------------------------------
-% Backgrounds and reference (Saving at the same spot)
-img_shaping(S_ref_name, S_ref_save, rz_s, cp_s)
-img_shaping(S_bkg_name, S_bkg_save, rz_s, cp_s)
-img_shaping(C_bkg_name, C_bkg_save, rz_c, cp_c)
+% Shaping the background
+img_shaping(PTS_background, PTS_background_s, rz, cp)
 
-% Surface
-for i = 1 : length(S_raw_name)
+% Shaping the photos
+for i = 1 : length(Photos_raw_names)
 
     % Path to the raw image
-    img_raw_path = S_raw + S_raw_name{i};
+    img_raw_path = Photos_raw + Photos_raw_names{i};
 
     % Path to the image's save
-    img_shaped_path = S_save + S_raw_name{i};
+    img_shaped_path = Photos_shaped + Photos_raw_names{i};
 
     % Shaping the image
-    img_shaping(img_raw_path, img_shaped_path, rz_s, cp_s);
+    img_shaping(img_raw_path, img_shaped_path, rz, cp);
 
 end
 
-% Curvature
-for i = 1 : length(C_raw_name)
-
-    % Path to the raw image
-    img_raw_path = C_raw + C_raw_name{i};
-
-    % Path to the image's save
-    img_shaped_path = C_save + C_raw_name{i};
-
-    % Shaping the image
-    img_shaping(img_raw_path, img_shaped_path, rz_c, cp_c);
-
-end
-
-% Information on the terminal
-img_terminal(4);
+% Information over the terminal
+img_terminal(4, cropping_mode);
 %--------------------------------------------------------------------------
+%
 %                                  Processing
+%
 %--------------------------------------------------------------------------
-% Surfaces
-for i = 1 : length(S_raw_name)
+for i = 1 : length(Photos_raw_names)
 
     % Path to the image's save
-    img_shaped_path = S_save + S_raw_name{i};
+    img_shaped_path = Photos_shaped + Photos_raw_names{i};
 
     % Path to the processed image
-    img_processed_path = S_final + S_raw_name{i};
+    img_processed_path = Photos_final + Photos_raw_names{i};
 
     % Processing
-    img_processing(S_bkg_save, img_shaped_path, img_processed_path, ...
-                   trsh_s, flt_s, 1)
-end
- 
-% Surfaces
-for i = 1 : length(C_raw_name)
-
-    % Path to the image's save
-    img_shaped_path = C_save + C_raw_name{i};
-
-    % Path to the processed image
-    img_processed_path = C_final + C_raw_name{i};
-
-    % Processing
-    img_processing(C_bkg_save, img_shaped_path, img_processed_path, ...
-                   trsh_c, flt_c, 1)
+    img_processing(PTS_background_s, img_shaped_path, ...
+                   img_processed_path, trsh, flt, debug_mode)
 end
 
-% Information on the terminal
-img_terminal(5);
-%--------------------------------------------------------------------------
-%                        Computing the reference
-%--------------------------------------------------------------------------
-% Process the reference image and determine the number of pixels per cm^2
-ref_value = img_ref(S_bkg_save, S_ref_save);
-
-% Information on the terminal
-img_terminal(6);
-%--------------------------------------------------------------------------
+% Information over the terminal
+img_terminal(5, cropping_mode);
