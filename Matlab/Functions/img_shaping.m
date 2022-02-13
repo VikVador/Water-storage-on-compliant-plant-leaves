@@ -19,13 +19,13 @@ function img_shaping(img_raw, img_save, resize, crop)
     %
     % Opening the image
     img_shaped = imread(img_raw);
-    
+
     % Resizing the image
     img_shaped = imresize(img_shaped , resize);
-    
+ 
     % Cropping the image
     img_shaped = imcrop(img_shaped, crop);
-    
+
     % Saving the image
     imwrite(img_shaped, img_save);
 end
