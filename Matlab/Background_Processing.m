@@ -16,7 +16,11 @@
 %
 addpath('Functions/');
 
+% Cleaning the previous run
+bkg_cleaning;
+
 % Information over the terminal
+bkg_terminal(0);
 %--------------------------------------------------------------------------
 %
 %                              Loading files
@@ -51,6 +55,8 @@ for i = 1 : length(Videos_raw_names)
 end
 nb_video = input("Select the video : ");
 
+% Information over the terminal
+bkg_terminal(1);
 
 % Opening the video
 vidObj = VideoReader("../Experiments/Initial/Videos/" + ...
@@ -64,3 +70,6 @@ f = read(vidObj, 1);
 
 % Saving the frame
 imwrite(f, "../Experiments/Initial/Background/" + filename2);
+
+% Information over the terminal
+bkg_terminal(2);

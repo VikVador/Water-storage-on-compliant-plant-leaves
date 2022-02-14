@@ -35,7 +35,7 @@ img_terminal(1, false);
 %
 %--------------------------------------------------------------------------
 % Resizing factor
-rz = 0.5;
+rz = 1;
 
 % Threshold value
 trsh = 30;
@@ -44,7 +44,7 @@ trsh = 30;
 flt = 5;
 
 % Cropping position
-cp = [2057.5 683.5 2681 1608];
+cp = [458.5 109.5 528 269];
 
 % Information over the terminal
 img_terminal(2, cropping_mode);

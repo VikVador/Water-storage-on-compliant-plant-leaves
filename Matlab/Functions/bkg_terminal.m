@@ -1,10 +1,10 @@
 %--------------------------------------------------------------------------
-%                             Video terminal
+%                          Background terminal
 %--------------------------------------------------------------------------
 % @ Victor Mangeleer
 % @ Arnaud Rémi
 %
-function vd_terminal(step)
+function bkg_terminal(step)
     %--------------
     % Documentation
     %--------------
@@ -13,18 +13,18 @@ function vd_terminal(step)
     clc;
     disp("-------------------------------------------------------");
     disp(" ")
-    disp("                     Video Processing                  ");
+    disp("                  Background Processing                  ");
     disp(" ")
     disp("-------------------------------------------------------");
     disp(" ");
 
     if step == 1
-        disp("Generation of the frames : ...");
+        disp("Generation of the background : ...");
         disp(" ");
     end
 
     if step == 2
-        disp("Generation of the frames : Done");
+        disp("Generation of the background : Done");
         disp(" ");
     end
 end

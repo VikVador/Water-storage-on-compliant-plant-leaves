@@ -32,9 +32,9 @@ auto_crop = true;
 %
 %--------------------------------------------------------------------------
 % Cropping position
-cp = [1034.5 392.5 1263 582];
+cp = [3.5 1.5 340 207];
 
-% Length of the leaf (NEED TO BE COMPUTED EXPERIMENTALLY) [m]
+% Length of the leaf [m]
 L = 0.01;
 
 %--------------------------------------------------------------------------
@@ -53,6 +53,23 @@ Data_raw_names = Data_raw_names(~strncmp(Data_raw_names, '.', 1));
 % Processed path
 Processed_path = "../Experiments/Final/";
 
+% Information over the terminal
+img_anal_terminal(0, cropping_mode);
+%--------------------------------------------------------------------------
+%
+%                           Cropping position
+%
+%--------------------------------------------------------------------------
+if(cropping_mode == true)
+
+    % Enters cropping mode to determine cropping box dimensions
+    img_shaped = imcrop(imread(Processed_path + "Photos/" + ...
+                        Photos_proc(1)));
+
+    % Stopping the script
+    return
+
+end
 %--------------------------------------------------------------------------
 %
 %                            Choosing dataset
@@ -76,6 +93,8 @@ Data = readtable("../Experiments/Initial/Data/" + Data_raw_names(nb_data));
 % Loading the mass vector
 Mass = table2array(Data(:, 2));
 
+% Information over the terminal
+img_anal_terminal(2, cropping_mode);
 %--------------------------------------------------------------------------
 %
 %                          Computing the angle
@@ -87,15 +106,15 @@ alpha_mean = zeros(length(Photos_proc), 1);
 alpha_high = zeros(length(Photos_proc), 1);
 
 % Contains the stiffness
-stiffness_low  = 0;
-stiffness_mean = 0;
-stiffness_high = 0;
+stiffness_low  = zeros(length(Photos_proc), 1);
+stiffness_mean = zeros(length(Photos_proc), 1);
+stiffness_high = zeros(length(Photos_proc), 1);
 
 % Looping over the images
 for i = 1 : length(Photos_proc)
     
     % Loading the image
-    image = imread(Processed_path + Photos_proc(i));
+    image = imread(Processed_path + "Photos/" + Photos_proc(i));
 
     % Croppping the image
     if auto_crop == true
@@ -141,11 +160,14 @@ for i = 1 : length(Photos_proc)
 
     % Computing the different stifness
     if( i == 1 )
-        stiffness_low  = get_stiffness(alpha_low(i), Mass(i), L, 9.81);
-        stiffness_high = get_stiffness(alpha_high(i), Mass(i), L, 9.81);
-        stiffness_mean = 0.5 * (stiffness_low(i)  + stiffness_high(i));
+        stiffness_low(i)  = get_stiffness(alpha_low(i), Mass(i), L, 9.81);
+        stiffness_high(i) = get_stiffness(alpha_high(i), Mass(i), L, 9.81);
+        stiffness_mean(i) = 0.5 * (stiffness_low(i)  + stiffness_high(i));
     end
 end
+
+% Information over the terminal
+img_anal_terminal(3, cropping_mode);
 
 %--------------------------------------------------------------------------
 %
@@ -162,6 +184,8 @@ Data_table = table(Mass, alpha_low, stiffness_low, ...
 % Saving the table inside the final data folder
 writetable(Data_table, Processed_path + "Data/" + Data_raw_names(nb_data));
 
+% Information over the terminal
+img_anal_terminal(4, cropping_mode);
 
 
 

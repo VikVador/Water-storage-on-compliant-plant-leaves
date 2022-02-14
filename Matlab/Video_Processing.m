@@ -16,6 +16,9 @@
 %
 addpath('Functions/');
 
+% Cleaning the previous run
+vd_cleaning;
+
 % Information over the terminal
 vd_terminal(0);
 %--------------------------------------------------------------------------

@@ -8,6 +8,10 @@ If you need more informations about how to do some "mise en page", read the foll
 
 https://www.overleaf.com/read/sbtpnpxpvcpt
 
+The link to our google drive is the following:
+
+https://drive.google.com/drive/folders/17XrhKB2nTQqwcYZuHuUrv0lbRzzoZMON?usp=sharing
+
 ## Organisation of experiment folder
 
 - Initial :
@@ -33,6 +37,6 @@ https://www.overleaf.com/read/sbtpnpxpvcpt
 - Code in the "Function" folder : this contains only small functions and piece of codes, thus, if there is no bug, one should not have to look into it !
 
 Note :
-1 - A script begin with an upper case letter whereas functions begin with a lowercase letter
-2 - The script balance should be terminated before the end of the recording to make sure that the time vector corresponds well to the video ! 
-3 - At the begginnig of each script, one can change some script parameters or processing parameters ! Feel free to try them !
+ - A script begin with an upper case letter whereas functions begin with a lowercase letter
+ - The script balance should be terminated before the end of the recording to make sure that the time vector corresponds well to the video ! 
+ - At the begginnig of each script, one can change some script parameters or processing parameters ! Feel free to try them !
