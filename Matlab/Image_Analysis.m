@@ -87,8 +87,8 @@ alpha_mean = zeros(length(Photos_proc), 1);
 alpha_high = zeros(length(Photos_proc), 1);
 
 % Contains the stiffness
-stiffness_low  = zeros(length(Photos_proc), 1);
-stiffness_mean = zeros(length(Photos_proc), 1);
+stiffness_low  = 0;
+stiffness_mean = 0;
 stiffness_high = zeros(length(Photos_proc), 1);
 
 % Looping over the images
