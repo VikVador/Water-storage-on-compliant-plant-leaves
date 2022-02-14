@@ -1,0 +1,26 @@
+%--------------------------------------------------------------------------
+%
+%
+%                          Background Processing
+%
+%
+%--------------------------------------------------------------------------
+% @ Victor Mangeleer
+% @ Arnaud Rémi
+%
+%--------------
+% Documentation
+%--------------
+% This script has for purpose retrieve all the frames corresponding
+% to the time vector of each mass measurement made during the experiments
+%
+addpath('Functions/');
+
+% Information over the terminal
+%--------------------------------------------------------------------------
+%
+%                              Loading files
+%
+%--------------------------------------------------------------------------
+% Load the path of the data and videos
+Videos_raw_names = {dir("../Experiments/Initial/Videos/").name};

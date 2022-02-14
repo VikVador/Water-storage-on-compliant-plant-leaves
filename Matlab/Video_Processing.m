@@ -118,19 +118,3 @@ end
 
 % Information over the terminal
 vd_terminal(2);
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -89,7 +89,7 @@ alpha_high = zeros(length(Photos_proc), 1);
 % Contains the stiffness
 stiffness_low  = 0;
 stiffness_mean = 0;
-stiffness_high = zeros(length(Photos_proc), 1);
+stiffness_high = 0;
 
 % Looping over the images
 for i = 1 : length(Photos_proc)
@@ -122,7 +122,7 @@ for i = 1 : length(Photos_proc)
             y_low(j)  = find(image(:,j) ~= 0, 1, 'last');
 
             % Top of the leafs
-            y_high(j) = find(image(:,j) ~= 0, 1);
+            y_high(j) = find(image(:,j) ~= 0, 1, 'first');
 
             % Update of the horizontal position
             x(j) = j;
@@ -140,9 +140,11 @@ for i = 1 : length(Photos_proc)
     alpha_mean(i) = 0.5 * (alpha_high(i) + alpha_low(i));
 
     % Computing the different stifness
-    stiffness_low(i)  = get_stiffness(alpha_low(i), Mass(i), L, 9.81);
-    stiffness_high(i) = get_stiffness(alpha_high(i), Mass(i), L, 9.81);
-    stiffness_mean(i) = 0.5 * (stiffness_low(i)  + stiffness_high(i));
+    if( i == 1 )
+        stiffness_low  = get_stiffness(alpha_low(i), Mass(i), L, 9.81);
+        stiffness_high = get_stiffness(alpha_high(i), Mass(i), L, 9.81);
+        stiffness_mean = 0.5 * (stiffness_low(i)  + stiffness_high(i));
+    end
 end
 
 %--------------------------------------------------------------------------

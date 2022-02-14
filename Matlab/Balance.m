@@ -16,6 +16,7 @@
 %
 % Note : Use appdesigner to create user interface
 %
+clear all
 addpath('Functions/');
 %--------------------------------------------------------------------------
 %
@@ -26,10 +27,10 @@ addpath('Functions/');
 COM = "COM6";
 
 % Saving rate (Time spend between each save of measure) [s]
-s_rate = 0.5;
+s_rate = 2;
 
 % Measurement duration [s]
-m_duration = 5;
+m_duration = 140;
 
 % Information over terminal
 balance_terminal(0, COM, s_rate, m_duration);
@@ -107,6 +108,11 @@ time = time - ones(size(time)) * time(1);
 nb_data   = {dir("../Experiments/Initial/Data/").name};
 nb_data   = length(nb_data(~strncmp(nb_data, '.', 1))) + 1;
 data_name = "Experiment_" + int2str(nb_data);
+
+% Convert table/string array into double array
+mass = string(mass{1,:});
+mass = erase(mass,'?');
+mass = str2double(mass);
 
 % Creating table of data
 Data_table = table(time',mass','VariableNames', { 'Time [s]', 'Mass [g]'});
