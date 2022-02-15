@@ -16,7 +16,7 @@
 %
 % Note : Use appdesigner to create user interface
 %
-clear all
+clear;
 addpath('Functions/');
 %--------------------------------------------------------------------------
 %

@@ -44,7 +44,7 @@ trsh = 30;
 flt = 5;
 
 % Cropping position
-cp = [458.5 109.5 528 269];
+cp = [480.5 194.5 416 192];
 
 % Information over the terminal
 img_terminal(2, cropping_mode);

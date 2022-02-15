@@ -32,10 +32,10 @@ auto_crop = true;
 %
 %--------------------------------------------------------------------------
 % Cropping position
-cp = [3.5 1.5 340 207];
+cp = [33.5 3.5 288 103];
 
 % Length of the leaf [m]
-L = 0.01;
+L = 0.03;
 
 %--------------------------------------------------------------------------
 %
@@ -90,6 +90,9 @@ disp(" ");
 % Loading the data
 Data = readtable("../Experiments/Initial/Data/" + Data_raw_names(nb_data));
 
+% Loading the time vector
+Time = table2array(Data(:, 1));
+
 % Loading the mass vector
 Mass = table2array(Data(:, 2));
 
@@ -104,6 +107,11 @@ img_anal_terminal(2, cropping_mode);
 alpha_low  = zeros(length(Photos_proc), 1);
 alpha_mean = zeros(length(Photos_proc), 1);
 alpha_high = zeros(length(Photos_proc), 1);
+
+% Contains the angles
+RMSE_low  = zeros(length(Photos_proc), 1);
+RMSE_mean = zeros(length(Photos_proc), 1);
+RMSE_high = zeros(length(Photos_proc), 1);
 
 % Contains the stiffness
 stiffness_low  = zeros(length(Photos_proc), 1);
@@ -123,63 +131,35 @@ for i = 1 : length(Photos_proc)
         image = imcrop(image);
     end
 
-    % Dimensions of the image
-    [n_rows, n_coll] = size(image);
+    [alpha_LOW, alpha_MEAN, alpha_HIGH, RMSE_LOW, RMSE_MEAN, RMSE_HIGH] ...
+    = img_alphas(image);
 
-    % Allocation storage vectors for dy and dx
-    x = zeros(n_coll, 1);
-    y_low  = NaN(n_coll, 1);
-    y_high = NaN(n_coll, 1);
-
-    % Finding dy and dx
-    for j = 1 : n_coll
-
-        % Checks if a portion of the leaf is visible in the column
-        if ~isempty(find(image(:,j) ~= 0, 1))
-
-            % Bottom of the leaf
-            y_low(j)  = find(image(:,j) ~= 0, 1, 'last');
-
-            % Top of the leafs
-            y_high(j) = find(image(:,j) ~= 0, 1, 'first');
-
-            % Update of the horizontal position
-            x(j) = j;
-        end
-    end
-
-    % Computing dy and dx
-    dy_low = min(y_low) - max(y_low);
-    dy_high = min(y_high) - max(y_high);
-    dx = find(x ~= 0, 1, 'last') - find(x ~= 0, 1);
-
-    % Computing the corresponding angles
-    alpha_low(i)  = atan(dy_low/dx);
-    alpha_high(i) = atan(dy_high/dx);
-    alpha_mean(i) = 0.5 * (alpha_high(i) + alpha_low(i));
+    % Storing the values
+    alpha_low(i)  = alpha_LOW; alpha_mean(i) = alpha_MEAN;
+    alpha_high(i) = alpha_HIGH; RMSE_low(i)    = RMSE_LOW;
+    RMSE_mean(i)   = RMSE_MEAN; RMSE_high(i)   = RMSE_HIGH;
 
     % Computing the different stifness
-    if( i == 1 )
-        stiffness_low(i)  = get_stiffness(alpha_low(i), Mass(i), L, 9.81);
-        stiffness_high(i) = get_stiffness(alpha_high(i), Mass(i), L, 9.81);
-        stiffness_mean(i) = 0.5 * (stiffness_low(i)  + stiffness_high(i));
-    end
-end
+    stiffness_low(i)  = get_stiffness(alpha_LOW, Mass(i), L, 9.81);
+    stiffness_mean(i) = get_stiffness(alpha_MEAN, Mass(i), L, 9.81);
+    stiffness_high(i) = get_stiffness(alpha_HIGH, Mass(i), L, 9.81);
 
+end
 % Information over the terminal
 img_anal_terminal(3, cropping_mode);
 
-%--------------------------------------------------------------------------
+% --------------------------------------------------------------------------
 %
 %                          Saving all the data
 %
 %--------------------------------------------------------------------------
-Data_table = table(Mass, alpha_low, stiffness_low, ...
-                         alpha_mean, stiffness_mean, ...
-                         alpha_high, stiffness_high, 'VariableNames', ...
-                         {'m', 'alpha_low', 'k_low', ...
-                               'alpha_mean', 'k_mean', ...
-                               'alpha_high', 'k_high'});
+Data_table = table(Time, Mass, alpha_low, alpha_mean, alpha_high, ...
+                         RMSE_low, RMSE_mean, RMSE_high, ...
+                         stiffness_low, stiffness_mean, stiffness_high, ...
+                         'VariableNames', {'Time', 'Mass', 'Alpha low', ...
+                         'Alpha mean', 'Alpha high', 'RMSE low', ...
+                         'RMSE mean', 'RMSE high', 'k low', ...
+                         'k mean', 'k high'});
 
 % Saving the table inside the final data folder
 writetable(Data_table, Processed_path + "Data/" + Data_raw_names(nb_data));
