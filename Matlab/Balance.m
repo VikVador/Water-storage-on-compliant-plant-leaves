@@ -48,41 +48,47 @@ hWaitbar = waitbar(0, 'Measurement : 0', 'Name', 'Balance', ...
 % Measuring mass
 for i = 1 : m_iterations
 
-    % Opening the port
-    s_port = serialport(COM, 9600, 'Parity', 'None', 'DataBits', 8, ...
-                       'FlowControl', 'none', 'StopBits', 1, 'Timeout', 6); 
+    bool = input("Press 1 to make a measurement, press 0 to stop : ");
     
-    % Reading mass over the balance
-    k = 1;
-    while k == 1 || strlength(readline(s_port)) < 7
-        m = readline(s_port);
-        k = k + 1;
-    end
+    if bool == 1
+        % Opening the port
+        s_port = serialport(COM, 9600, 'Parity', 'None', 'DataBits', 8, ...
+                           'FlowControl', 'none', 'StopBits', 1, 'Timeout', 6); 
 
-    % Retrieving time of measurement
-    [t, ~] = clock;
-    hour = t(4); min = t(5); sec = t(6);
+        % Reading mass over the balance
+        k = 1;
+        while k == 1 || strlength(readline(s_port)) < 7
+            m = readline(s_port);
+            k = k + 1;
+        end
 
-    % Saving mass and time
-    mass(i) = m;
-    time(i) = hour * 3600 + min * 60 + sec;
+        % Retrieving time of measurement
+        [t, ~] = clock;
+        hour = t(4); min = t(5); sec = t(6);
 
-    % GUI Interface
-    drawnow;
+        % Saving mass and time
+        mass(i) = m;
+        time(i) = hour * 3600 + min * 60 + sec;
 
-    % Stops measurement if cancel button is pressed
-    if ~ishandle(hWaitbar)
+        % GUI Interface
+        drawnow;
+
+        % Stops measurement if cancel button is pressed
+        if ~ishandle(hWaitbar)
+            break;
+        else
+            % Update the wait bar
+            waitbar(i/m_iterations, hWaitbar, ['Measurement : ' num2str(i)]);
+        end
+
+        % Closing the port
+        clear s_port;
+
+        % Waiting time between each save
+        % pause(s_rate);
+    elseif bool == 0
         break;
-    else
-        % Update the wait bar
-        waitbar(i/m_iterations, hWaitbar, ['Measurement : ' num2str(i)]);
     end
-
-    % Closing the port
-    clear s_port;
-
-    % Waiting time between each save
-    pause(s_rate);
 end
 
 % Information over terminal
