@@ -22,6 +22,13 @@ function img_processing(bkg, img_shaped, img_processed, ...
     background   = imread(bkg);
     image_shaped = imread(img_shaped);
     
+    if debug == 1
+        imshow(image_shaped);
+        waitforbuttonpress;
+        imshow(background);
+        waitforbuttonpress;
+    end
+
     % Substracting images (in absolute value)
     image = abs(background - image_shaped);
 

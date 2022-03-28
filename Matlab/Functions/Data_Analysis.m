@@ -26,6 +26,8 @@ addpath('Functions/');
 Data_raw_names   = {dir("../Experiments/Final/Data/").name};
 Data_raw_names = Data_raw_names(~strncmp(Data_raw_names, '.', 1));
 
+rho = 1000;
+S = 4.1 * 10^-4;
 %----------------------
 % Evolution of the mass
 %----------------------
@@ -42,7 +44,8 @@ for i = 1 : length(Data_raw_names)
     Mass = table2array(Data(:, 2));
 
     % Plotting the results
-    plot(Time, Mass, 'v', 'linewidth', 1.5);
+    plot(Time, (Mass - ones(size(Mass)) * Mass(1))/(rho * S), ...
+         'v', 'linewidth', 1.5);
     hold on;
     
     
@@ -50,7 +53,7 @@ end
 grid on;
 legend(Data_raw_names);
 xlabel('Time [s]', 'Fontsize', 25, 'interpreter', 'latex');
-ylabel('Mass [g]', 'Fontsize', 25, 'interpreter', 'latex');
+ylabel('$\mu$ [mm]', 'Fontsize', 25, 'interpreter', 'latex');
 set(gca,'Fontsize', 15);
 
 %------------------------------

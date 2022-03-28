@@ -22,7 +22,7 @@ addpath('Functions/');
 %
 %--------------------------------------------------------------------------
 % Run the script on debug mode (See step by step processing)
-debug_mode = false;
+debug_mode = true;
 
 % Run the script to determine the cropping position
 cropping_mode =  false;
@@ -44,7 +44,7 @@ trsh = 30;
 flt = 5;
 
 % Cropping position
-cp = [480.5 194.5 416 192];
+cp = [452.5 66.5 512 437];
 
 % Information over the terminal
 img_terminal(2, cropping_mode);

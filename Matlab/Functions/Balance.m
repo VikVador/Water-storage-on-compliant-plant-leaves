@@ -26,31 +26,20 @@ addpath('Functions/');
 % Define communicating port
 COM = "COM6";
 
-% Saving rate (Time spend between each save of measure) [s]
-s_rate = 2;
-
-% Measurement duration [s]
-m_duration = 140;
-
 % Information over terminal
-balance_terminal(0, COM, s_rate, m_duration);
+balance_terminal(0, COM, 1, 1);
 %--------------------------------------------------------------------------
 %
 %                                Measurements
 %
 %--------------------------------------------------------------------------
-% Computation of number of iterations for measurements
-m_iterations = m_duration/s_rate;
-
-% GUI interface for the continous measurement
-hWaitbar = waitbar(0, 'Measurement : 0', 'Name', 'Balance', ...
-                   'CreateCancelBtn','delete(gcbf)');
 % Measuring mass
-for i = 1 : m_iterations
+for i = 1 : 1000
 
     bool = input("Press 1 to make a measurement, press 0 to stop : ");
     
     if bool == 1
+        disp("Saved");
         % Opening the port
         s_port = serialport(COM, 9600, 'Parity', 'None', 'DataBits', 8, ...
                            'FlowControl', 'none', 'StopBits', 1, 'Timeout', 6); 
@@ -70,17 +59,6 @@ for i = 1 : m_iterations
         mass(i) = m;
         time(i) = hour * 3600 + min * 60 + sec;
 
-        % GUI Interface
-        drawnow;
-
-        % Stops measurement if cancel button is pressed
-        if ~ishandle(hWaitbar)
-            break;
-        else
-            % Update the wait bar
-            waitbar(i/m_iterations, hWaitbar, ['Measurement : ' num2str(i)]);
-        end
-
         % Closing the port
         clear s_port;
 
@@ -92,17 +70,13 @@ for i = 1 : m_iterations
 end
 
 % Information over terminal
-balance_terminal(1, COM, s_rate, m_duration);
+balance_terminal(1, COM, 1, 1);
 %--------------------------------------------------------------------------
 %
 %                             Data saving
 %
 %--------------------------------------------------------------------------
 % Closing the GUI interface and port (if needed)
-if exist('hWaitbar','var') == 1
-    close(hWaitbar);
-end
-
 if exist('s_port','var') == 1
     clear(s_port)
 end
