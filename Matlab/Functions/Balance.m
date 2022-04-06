@@ -28,6 +28,7 @@ COM = "COM6";
 
 % Information over terminal
 balance_terminal(0, COM, 1, 1);
+
 %--------------------------------------------------------------------------
 %
 %                                Measurements
@@ -72,9 +73,7 @@ end
 % Information over terminal
 balance_terminal(1, COM, 1, 1);
 %--------------------------------------------------------------------------
-%
 %                             Data saving
-%
 %--------------------------------------------------------------------------
 % Closing the GUI interface and port (if needed)
 if exist('s_port','var') == 1

@@ -2,87 +2,103 @@
 %
 %                             Laboratory 2
 %                         
-%                         Evolution of mu(k)
+%                         Alpha_0, k_0 et mu
 %
 %--------------------------------------------------------------------------
 % @ Victor Mangeleer
 % @ Arnaud Rémi
 %
 clc;
+addpath('Functions/');
 %--------------------------------------------------------------------------
-%                               Documentation
+%                           Documentation
 %--------------------------------------------------------------------------
-disp("------------------------------------------------------------------");
-disp(" ");
-disp("                            Laboratory 2                          ");
-disp(" ");
-disp("                          Evolution of mu(k)                      ");
-disp(" ");
-disp("------------------------------------------------------------------");
-disp("In order to make the graph of mu(k), you must follow these steps :");
-disp(" ");
-disp(" 1 - In Experiments/Initial/Videos/, you must place a video named ");
-disp("     Background.MOV as well as the other videos which are simply  ");
-disp("     videos of a few second (used to determine k0).               ");
-disp(" ");
-disp(" 2 - The background as well as the videos must be extracted from  ");
-disp("     the videos using the first frame.                            ");
-disp(" ");
-disp(" 3 - The background and the frame must be processed.              ");
-disp(" ");
-disp(" 4 - The experiment can start with the balance."                   );
-disp(" ");
-disp(" 5 - The stiffness can be computed.                               ");
-disp(" ");
-disp(" 6 - The results can be plotted.                                  ");
-disp(" ");
-disp("------------------------------------------------------------------");
-disp("                              List of actions                     ");
-disp("------------------------------------------------------------------");
-disp(" 1 - WAIT");
-disp(" ");
-disp(" 2 - EXTRACTING BACKGROUND AND VIDEO");
-disp(" ");
-disp(" 3 - PROCESSING BACKGROUND AND VIDEO");
-disp(" ");
-disp(" 4 - BALANCE");
-disp(" ");
-disp(" 5 - COMPUTING DATA");
-disp(" ");
-disp(" 6 - PLOTTING  DATA");
-disp(" ");
-action = input("Action to take : ");
+L2_Title();
+disp("Note : The folders are going to be cleaned, ");
+disp("       do you want to continue ?");
+L2_interaction();
 
-%--------------------------------------------------------------------------
-%                                    Code
-%--------------------------------------------------------------------------
-if(action == 2)
-    Background_Processing;
-    clc;
-    Video_Processing;
-end
+disp("BEFORE YOU START");
+disp(" ");
+disp("    Are you sure that the processing parameters are well set-up ?");
+L2_interaction();
 
-if(action == 3)
-    Image_Processing;
-end
+disp("LEAF PROPERTIES");
+disp(" ");
+disp("What is the dry mass ?")
+disp(" ");
+m_0 = input("m_0 [g] = ");
+disp(" ");
+disp("What is the length ?")
+disp(" ");
+L = input("L [m] = ");
+disp(" ");
+disp("What is the width ?")
+disp(" ");
+W = input("w [m] = ");
+disp(" ");
+disp("What is the critical angle ?")
+disp(" ");
+alpha = input("alpha [m] = ");
+L2_Title();
+disp("IMAGE PROCESSING");
+disp(" ");
+disp("Take a picture of the backgound and place it in the");
+disp("folder initial/Background with the name 'Background.jpg'");
+L2_interaction();
+disp("IMAGE PROCESSING");
+disp(" ");
+disp("Take a picture of the leaf initially and place it in the");
+disp("folder initial/Photos with whatever name");
+L2_interaction();
 
-if(action == 4)
-    Balance;
-end
+Image_Processing;
+[alpha_0, alpha_0_error, k_0] = Image_Analysis(m_0, L);
+L2_Title();
+disp("COMPUTING THE RESULTS");
+disp(" ");
+disp("alpha_0         = " + string(alpha_0));
+disp(" ");
+disp("alpha_0 (ERROR) = " + string(alpha_0_error));
+disp(" ");
+disp("k_0             = " + string(k_0));
+disp(" ");
+L2_interaction();
+disp("BALANCE MEASUREMENT")
+disp(" ");
+interface;
 
-if(action == 5)
-    Image_Analysis;
-end
+% Retreives critical mass value
+m_crit = table2array(readtable("MASS.txt"));
 
-if(action == 6)
-    Data_Analysis;
-end
+% Computes capacity
+mu = capacity(W * L, k_0, alpha_0, alpha);
 
+%---------------------
+% END OF MANIPULATIONS
+%---------------------
+L2_Title();
+disp("RESULTS OF EXPERIMENT");
+disp(" ");
+disp("alpha_0         = " + string(alpha_0));
+disp(" ");
+disp("alpha_0 (ERROR) = " + string(alpha_0_error));
+disp(" ");
+disp("k_0             = " + string(k_0));
+disp(" ");
+disp("m_crit          = " + string(m_crit));
+disp(" ");
+disp("mu              = " + string(mu));
 
+% Creation of table
+T = table(alpha_0, alpha_0_error, k_0, m_crit, mu,  ...
+         'VariableNames', {'alpha_0', 'alpha_0 (ERROR)', 'k_0', 'm_crit', 'mu'});
 
-
-
-
-
-
-
+% Creation of file name
+RESULTS  = {dir("Results/").name};
+RESULTS_length = length(RESULTS(~strncmp(RESULTS, '.', 1)));
+RESULT_NAME = "Experiment_" + string(RESULTS_length) + ".txt";
+writetable(T, "Results/" + RESULT_NAME);
+disp(" ");
+disp("Results are saved in : " + RESULT_NAME);
+delete MASS.txt;

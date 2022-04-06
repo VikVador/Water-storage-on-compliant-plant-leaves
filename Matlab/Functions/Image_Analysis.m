@@ -14,6 +14,8 @@
 % This script has for purpose to measure angle of curvature alpha as well
 % as the associated stiffness of the leaf
 %
+function [alpha_0, alpha_0_error, k_0] = Image_Analysis(m, l)
+
 addpath('Functions/');
 %--------------------------------------------------------------------------
 %
@@ -35,7 +37,10 @@ auto_crop = true;
 cp = [0.5 83.5 323 166];
 
 % Length of the leaf [m]
-L = 0.03;
+L = l;
+
+% Mass of the leaf
+Mass = m;
 
 %--------------------------------------------------------------------------
 %
@@ -45,10 +50,6 @@ L = 0.03;
 % Processed pictures
 Photos_proc = {dir("../Experiments/Final/Photos/").name};
 Photos_proc = Photos_proc(~strncmp(Photos_proc, '.', 1));
-
-% Raw data
-Data_raw_names   = {dir("../Experiments/Initial/Data/").name};
-Data_raw_names = Data_raw_names(~strncmp(Data_raw_names, '.', 1));
 
 % Processed path
 Processed_path = "../Experiments/Final/";
@@ -70,31 +71,6 @@ if(cropping_mode == true)
     return
 
 end
-%--------------------------------------------------------------------------
-%
-%                            Choosing dataset
-%
-%--------------------------------------------------------------------------
-% Selection of a data set
-disp("-------");
-disp("Dataset");
-disp("-------");
-disp(" ");
-for i = 1 : length(Data_raw_names)
-    disp(num2str(i) + " - " + Data_raw_names(i))
-    disp(" ");
-end
-nb_data = input("Select the dataset : ");
-disp(" ");
-
-% Loading the data
-Data = readtable("../Experiments/Initial/Data/" + Data_raw_names(nb_data));
-
-% Loading the time vector
-Time = table2array(Data(:, 1));
-
-% Loading the mass vector
-Mass = table2array(Data(:, 2));
 
 % Information over the terminal
 img_anal_terminal(2, cropping_mode);
@@ -104,19 +80,13 @@ img_anal_terminal(2, cropping_mode);
 %
 %--------------------------------------------------------------------------
 % Contains the angles
-alpha_low  = zeros(length(Photos_proc), 1);
-alpha_mean = zeros(length(Photos_proc), 1);
-alpha_high = zeros(length(Photos_proc), 1);
+alpha_0  = 0;
 
-% Contains the angles
-RMSE_low  = zeros(length(Photos_proc), 1);
-RMSE_mean = zeros(length(Photos_proc), 1);
-RMSE_high = zeros(length(Photos_proc), 1);
+% Contains the error on the angles
+alpha_0_error = 0;
 
 % Contains the stiffness
-stiffness_low  = zeros(length(Photos_proc), 1);
-stiffness_mean = zeros(length(Photos_proc), 1);
-stiffness_high = zeros(length(Photos_proc), 1);
+k_0  = 0;
 
 % Looping over the images
 for i = 1 : length(Photos_proc)
@@ -135,40 +105,20 @@ for i = 1 : length(Photos_proc)
     = img_alphas(image);
 
     % Storing the values
-    alpha_low(i)  = alpha_LOW; alpha_mean(i) = alpha_MEAN;
-    alpha_high(i) = alpha_HIGH; RMSE_low(i)    = RMSE_LOW;
-    RMSE_mean(i)   = RMSE_MEAN; RMSE_high(i)   = RMSE_HIGH;
-
+    alpha_0  = alpha_LOW;
+    alpha_0_error = RMSE_LOW; 
+    
     % Computing the different stifness
-    stiffness_low(i)  = get_stiffness(alpha_LOW, Mass(i), L, 9.81);
-    stiffness_mean(i) = get_stiffness(alpha_MEAN, Mass(i), L, 9.81);
-    stiffness_high(i) = get_stiffness(alpha_HIGH, Mass(i), L, 9.81);
-
+    k_0  = get_stiffness(alpha_0, Mass, L, 9.81);
 end
+
 % Information over the terminal
 img_anal_terminal(3, cropping_mode);
-
-% --------------------------------------------------------------------------
-%
-%                          Saving all the data
-%
-%--------------------------------------------------------------------------
-Data_table = table(Time, Mass, alpha_low, alpha_mean, alpha_high, ...
-                         RMSE_low, RMSE_mean, RMSE_high, ...
-                         stiffness_low, stiffness_mean, stiffness_high, ...
-                         'VariableNames', {'Time', 'Mass', 'Alpha low', ...
-                         'Alpha mean', 'Alpha high', 'RMSE low', ...
-                         'RMSE mean', 'RMSE high', 'k low', ...
-                         'k mean', 'k high'});
-
-% Saving the table inside the final data folder
-writetable(Data_table, Processed_path + "Data/" + Data_raw_names(nb_data));
 
 % Information over the terminal
 img_anal_terminal(4, cropping_mode);
 
-
-
+end
 
 
 
