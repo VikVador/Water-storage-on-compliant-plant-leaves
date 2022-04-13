@@ -16,7 +16,7 @@ function [alpha_low, alpha_mean, alpha_high, ...
     
     % Dimensions of the image
     [~, n_coll] = size(image);
-
+    
     % Contains the different points used to compute linear regression
     x      = NaN(n_coll, 1);
     y_low  = NaN(n_coll, 1);

@@ -82,7 +82,22 @@ while true
         m = erase(m,"s");
         m = erase(m,"S");
         m = str2double(m);
-        mass(index)    = m;
+        
+        % Correcting balance bug
+        if (index > 1)
+            threshold_mass = mass(end) + 0.1;
+            if m > threshold_mass || isnan(m)
+                m = mass(end);
+            end
+        end
+
+        % Correting vibrations
+        if m < 0
+            m = 0;
+        end
+
+        % Adding the value
+        mass(index) = m;
 
         % Removing the port
         clear s_port;
@@ -91,7 +106,7 @@ while true
         index_v(index) = index;
 
         % Plotting the results
-        plot(hh, index_v, mass, '-o', "LineWidth", 12);
+        plot(hh, index_v, mass, '-o', "LineWidth", 3);
         xlabel("Number of the measurement [-]");
         ylabel("Mass [g]");
         set(gca, 'fontsize', 24, 'fontname', 'Times', 'LineWidth', 0.5);

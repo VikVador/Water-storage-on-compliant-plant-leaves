@@ -9,6 +9,7 @@
 % @ Arnaud Rémi
 %
 clc;
+cleaning;
 addpath('Functions/');
 %--------------------------------------------------------------------------
 %                           Documentation
@@ -27,19 +28,25 @@ disp("LEAF PROPERTIES");
 disp(" ");
 disp("What is the dry mass ?")
 disp(" ");
-m_0 = input("m_0 [g] = ");
+%m_0 = input("m_0 [g] = ");
 disp(" ");
 disp("What is the length ?")
 disp(" ");
-L = input("L [m] = ");
+%L = input("L [m] = ");
 disp(" ");
 disp("What is the width ?")
 disp(" ");
-W = input("w [m] = ");
+%W = input("w [m] = ");
 disp(" ");
 disp("What is the critical angle ?")
 disp(" ");
-alpha = input("alpha [m] = ");
+%alpha = input("alpha [m] = ");
+
+m_0 = 0.28;
+L = 0.049;
+W = 0.012;
+alpha = 48.6;
+
 L2_Title();
 disp("IMAGE PROCESSING");
 disp(" ");
@@ -54,12 +61,18 @@ L2_interaction();
 
 Image_Processing;
 [alpha_0, alpha_0_error, k_0] = Image_Analysis(m_0, L);
+
+% Conversion of angles
+alpha_0_rad = alpha_0;
+alpha_0 = alpha_0 * (360/(2 * pi));
+alpha_rad = alpha * 2 * pi / 360;
+
 L2_Title();
 disp("COMPUTING THE RESULTS");
 disp(" ");
 disp("alpha_0         = " + string(alpha_0));
-disp(" ");
-disp("alpha_0 (ERROR) = " + string(alpha_0_error));
+%disp(" ");
+%disp("alpha_0 (ERROR) = " + string(alpha_0_error));
 disp(" ");
 disp("k_0             = " + string(k_0));
 disp(" ");
@@ -72,7 +85,8 @@ interface;
 m_crit = table2array(readtable("MASS.txt"));
 
 % Computes capacity
-mu = capacity(W * L, k_0, alpha_0, alpha);
+mu_th  = 1000 * capacity(L, W * L, k_0, alpha_0_rad, alpha_rad);
+mu_exp = 0.001 * m_crit/(W * L);
 
 %---------------------
 % END OF MANIPULATIONS
@@ -88,11 +102,13 @@ disp("k_0             = " + string(k_0));
 disp(" ");
 disp("m_crit          = " + string(m_crit));
 disp(" ");
-disp("mu              = " + string(mu));
+disp("mu_th           = " + string(mu_th));
+disp(" ");
+disp("mu_exp          = " + string(mu_exp));
 
 % Creation of table
-T = table(alpha_0, alpha_0_error, k_0, m_crit, mu,  ...
-         'VariableNames', {'alpha_0', 'alpha_0 (ERROR)', 'k_0', 'm_crit', 'mu'});
+T = table(alpha_0, alpha_0_error, k_0, m_crit, mu_th, mu_exp,  ...
+         'VariableNames', {'alpha_0', 'alpha_0 (ERROR)', 'k_0', 'm_crit', 'mu_th', 'mu_exp'});
 
 % Creation of file name
 RESULTS  = {dir("Results/").name};

@@ -60,7 +60,7 @@ function img_processing(bkg, img_shaped, img_processed, ...
         imshow(image);
         waitforbuttonpress;
     end
-    
+
     % Saving the processed image
     imwrite(image, img_processed);
 end

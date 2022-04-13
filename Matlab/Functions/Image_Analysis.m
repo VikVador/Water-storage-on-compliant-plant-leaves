@@ -34,7 +34,7 @@ auto_crop = true;
 %
 %--------------------------------------------------------------------------
 % Cropping position
-cp = [0.5 83.5 323 166];
+cp = [24.5 22.5 748 528];
 
 % Length of the leaf [m]
 L = l;
@@ -95,17 +95,17 @@ for i = 1 : length(Photos_proc)
     image = imread(Processed_path + "Photos/" + Photos_proc(i));
 
     % Croppping the image
-    if auto_crop == true
-        image = imcrop(image, cp);
-    else
-        image = imcrop(image);
-    end
+    %if auto_crop == true
+    %    image = imcrop(image, cp);
+    %else
+    %    image = imcrop(image);
+    %end
 
     [alpha_LOW, alpha_MEAN, alpha_HIGH, RMSE_LOW, RMSE_MEAN, RMSE_HIGH] ...
     = img_alphas(image);
 
     % Storing the values
-    alpha_0  = alpha_LOW;
+    alpha_0  = abs(alpha_LOW);
     alpha_0_error = RMSE_LOW; 
     
     % Computing the different stifness

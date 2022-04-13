@@ -1,6 +1,6 @@
 function L2_interaction()
     disp(" ");
-    input("Press '1' to continue :");
+    input("Press 'Enter' to continue :");
     clc;
     L2_Title();
 end
