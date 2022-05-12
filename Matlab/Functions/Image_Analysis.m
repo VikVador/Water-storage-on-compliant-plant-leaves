@@ -14,7 +14,7 @@
 % This script has for purpose to measure angle of curvature alpha as well
 % as the associated stiffness of the leaf
 %
-function [alpha_0, alpha_0_error, k_0] = Image_Analysis(m, l)
+function [alpha_0, alpha_0_error, k_0] = Image_Analysis(m, l, pl)
 
 addpath('Functions/');
 %--------------------------------------------------------------------------
@@ -37,7 +37,7 @@ auto_crop = true;
 cp = [24.5 22.5 748 528];
 
 % Length of the leaf [m]
-L = l;
+L_tilde = (l/2) + pl ;
 
 % Mass of the leaf
 Mass = m;
@@ -109,7 +109,7 @@ for i = 1 : length(Photos_proc)
     alpha_0_error = RMSE_LOW; 
     
     % Computing the different stifness
-    k_0  = get_stiffness(alpha_0, Mass, L, 9.81);
+    k_0  = get_stiffness(alpha_0, Mass, L_tilde, 9.81);
 end
 
 % Information over the terminal

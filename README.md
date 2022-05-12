@@ -1,42 +1,9 @@
-# Personal experimental project
+                            Personal Experimental Project           
+---
+The interception of rainfall by the forest canopy critically affects the water cycle and, conse- quently, groundwater recharge, climate, and most ecosystems at the Earth surface. Therefore, it is crucial to determine water fluxes induced by canopy interception and to predict how they would evolve with climate change or modifications of land use. Though the canopy intercepts a large proportion of rainwater, only a fraction of it subsequently reaches the ground (as either splashed droplets, drips or stem flow) while the remainder ultimately evaporates. The storage capacity of a leaf, plant or tree is defined as the maximum amount of water that it can store. We may expect that this capacity depends on the compliance of the leafs: a compliant leaf bends in response to the water weight, and then water drains down and drips more easily. However, the exact relationship between storage capacity and leaf compliance is unknown.
 
-The overleaf of our research proposal is given here:
 
-https://www.overleaf.com/6656833847pfhgcxrjjpws
+> Authors : **Arnaud Remi** and **Victor Mangeleer**
+---
 
-If you need more informations about how to do some "mise en page", read the following paper:
 
-https://www.overleaf.com/read/sbtpnpxpvcpt
-
-The link to our google drive is the following:
-
-https://drive.google.com/drive/folders/17XrhKB2nTQqwcYZuHuUrv0lbRzzoZMON?usp=sharing
-
-## Organisation of experiment folder
-
-- Initial :
-    - Background : It must contains the background image taken during our experiment and must be named "Background.jpg"
-    - Data       : Contains the data obtained by running the "Balance script". This data is considered as "raw" since it only contains the mass and time 
-    - Photos     : Contains all the frames obtained by running the script "Video_Processing" on the videos of our experiments
-    - Videos     : Videos of our experiements !
-
-- '____' : You do not have to look into that folder
-
-- Final  :
-    - Data   : Contains the data obtained after running the script "Image_Analysis". The data contained the mass, alpha and stifness (low, mean, high)
-    - Photos : Contains the images processes by "Image_Processing" which will be used by "Image_analysis" to compute alpha and the stiffness.
-
-## Matlab code
-
-- Code in the main folder :
-    - Balance : This script is runned during our experiments ! It measures and save the time and balance measurement !
-    - Video_Processing : Transform the video into frames which are taken at the different times saved in the data files
-    - Image_Processing : Process all the images inside the folder "Experiment/Initial/Photos/"
-    - Image_Analysis   : Compute all the angles and stifness relative to the photos inside the "Experiment/Final/Photos/" folder. 
-
-- Code in the "Function" folder : this contains only small functions and piece of codes, thus, if there is no bug, one should not have to look into it !
-
-Note :
- - A script begin with an upper case letter whereas functions begin with a lowercase letter
- - The script balance should be terminated before the end of the recording to make sure that the time vector corresponds well to the video ! 
- - At the begginnig of each script, one can change some script parameters or processing parameters ! Feel free to try them !
