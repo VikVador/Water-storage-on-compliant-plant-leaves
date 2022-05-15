@@ -53,16 +53,6 @@ angle_crit = 48.6 * 2 * pi /360;
 const      = angle_crit/(cos(angle_crit));
 
 figure(1);
-plot(th_domain, const * th_domain - 1, '--k', 'linewidth', 1);
-hold on;
-
-% Theoretical curve with alpha error
-alpha_error = 4.004;
-angle_crit_w_error = (48.6 - alpha_error) * 2 * pi /360;
-const      = angle_crit_w_error/(cos(angle_crit_w_error));
-plot(th_domain, const * th_domain - 1, '--r', 'linewidth', 1);
-hold on;
-
 
 % Experimental curve
 r1_mean = mean(r1, 2);
@@ -70,9 +60,29 @@ r2_ex_mean = mean(r2_experimental, 2);
 r1_std = std(r1, 0, 2);
 r2_ex_std = std(r2_experimental, 0, 2);
 errorbar(r1_mean, r2_ex_mean, r2_ex_std, r2_ex_std, r1_std, r1_std, 'o', ...
-          'color', [0, 0.65, 0.5], 'markersize', 3, 'LineWidth', 1);
+          'color', [0.898, 0.5843, 0], 'markersize', 3, 'LineWidth', 1);
+hold on;
+
+plot(th_domain, const * th_domain - 1, '--k', 'linewidth', 1.5);
+legend({'Experimental', 'Model'}, 'interpreter', 'latex', 'fontsize', 16)
+
+      
+% Theoretical curve with alpha error
+alpha_error = 4.004;
+angle_crit_w_error = (48.6 - alpha_error) * 2 * pi /360;
+const      = angle_crit_w_error/(cos(angle_crit_w_error));
+plot(th_domain, const * th_domain - 1, '--k', 'linewidth', 1);
+hold on;
+
+angle_crit_w_error = (48.6 + alpha_error) * 2 * pi /360;
+const      = angle_crit_w_error/(cos(angle_crit_w_error));
+plot(th_domain, const * th_domain - 1, '--k', 'linewidth', 1);
+xlim([0.7 1.8]);
+ylim([0 1.5]);
+
+
+
 set(gca, 'fontsize', 16, 'fontname', 'Times', 'LineWidth', 0.5);
 xlabel('$\frac{k}{mlg}$ [-]', 'fontsize', 21, 'interpreter', 'latex')
 ylabel('$\frac{\mu S \rho g \tilde{l}}{mlg}$ [-]', 'fontsize', 21, 'interpreter', 'latex')
-grid minor
-legend('Model', 'Model - Error', 'Experimental', 'interpreter', 'latex', 'fontsize', 16)
+%grid minor

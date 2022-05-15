@@ -181,13 +181,15 @@ end
 FIG_volume3 = figure(3);
 set(FIG_volume3, 'defaulttextinterpreter','latex');
 errorbar(V_mean, Alpha_mean, Alpha_std, Alpha_std, V_std, V_std, 'o', ...
-         'color', pigment_color, 'CapSize', 4, 'markersize', 6, 'LineWidth', 1.2);
+         'color', [0.898, 0.5843, 0], 'CapSize', 4, 'markersize', 6, 'LineWidth', 1.2);
 xlabel('$V$ [$\mu$L]');
 ylabel('$\alpha_{\star}$ [$^{\circ}$]');
 set(gca, 'fontsize', 18, 'fontname', 'Times', 'LineWidth', 0.5);
 grid on;
 hold on;
+plot(V, alpha_real, '-k', 'linewidth', 1);
+legend('Experimental', 'Inverse regression', 'fontsize', 16)
 plot(V, alpha_opt_2, '--k', 'linewidth', 0.5);
 plot(V, Asymptot , '--k', 'linewidth', 0.5);
-plot(V, alpha_real, '-k', 'linewidth', 1);
-ylim([0 100]);
+ylim([10 100]);
+xlim([10 70]);

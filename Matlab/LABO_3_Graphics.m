@@ -19,6 +19,7 @@ l = 0.049;
 alpha_vec = (0:0.1:pi/2);
 
 % Graphics
+figure;
 plot(2*k*alpha_vec./(g*l*cos(alpha_vec))*1000, alpha_vec*360/(2*pi));
 hold on;
 plot(m, alpha, 'o');
@@ -26,6 +27,6 @@ xlim([0.28, 1.7])
 yline(60)
 xlabel("mass [g]");
 ylabel("alpha [°]");
-grid minor;
+%grid minor;
 legend(["Theoretical", "Experimental"])
 
