@@ -7,3 +7,5 @@ The interception of rainfall by the forest canopy critically affects the water c
 ---
 
 Photos : https://drive.google.com/drive/folders/19p7Oiy-guSN406myi3R8jvgaZ4_zwWlB?usp=sharing
+
+<embed src="Poster.pdf" type="application/pdf">
