@@ -9,8 +9,8 @@
 % @ Arnaud Rémi
 %
 clc;
-cleaning;
 addpath('Functions/');
+cleaning;
 %--------------------------------------------------------------------------
 %                           Documentation
 %--------------------------------------------------------------------------
@@ -28,25 +28,19 @@ disp("LEAF PROPERTIES");
 disp(" ");
 disp("What is the dry mass ?")
 disp(" ");
-%m_0 = input("m_0 [g] = ");
+m_0 = input("m_0 [g] = ");
 disp(" ");
 disp("What is the length ?")
 disp(" ");
-%L = input("L [m] = ");
+L = input("L [m] = ");
 disp(" ");
 disp("What is the width ?")
 disp(" ");
-%W = input("w [m] = ");
+W = input("w [m] = ");
 disp(" ");
 disp("What is the critical angle ?")
 disp(" ");
-%alpha = input("alpha [m] = ");
-
-m_0 = 0.28;
-L = 0.049;
-W = 0.012;
-alpha = 48.6;
-
+alpha = input("alpha [m] = ");
 L2_Title();
 disp("IMAGE PROCESSING");
 disp(" ");

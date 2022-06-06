@@ -9,8 +9,8 @@
 % @ Arnaud Rémi
 %
 clc;
-cleaning;
 addpath('Functions/');
+cleaning;
 
 %--------------------------------------------------------------------------
 %                   Dimensions and experiment parameters

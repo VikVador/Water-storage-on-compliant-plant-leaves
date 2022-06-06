@@ -69,7 +69,7 @@ R_std = ( V_std * (3/4) * (1/pi) ).^(1/3);
 clf;
 
 % Figure pigment color
-pigment_color = [0.0, 0.65, 0.31];
+pigment_color = [166,93,116]/255;
 
 %---------------------
 %      Version 1
@@ -81,7 +81,7 @@ errorbar(V_mean, Alpha_mean, Alpha_std, Alpha_std, V_std, V_std, 'o', ...
 xlabel('$V$ [$\mu$L]');
 ylabel('$\alpha_{\star}$ [$^{\circ}$]');
 set(gca, 'fontsize', 18, 'fontname', 'Times', 'LineWidth', 0.5);
-grid on;
+
 
 
 %---------------------
@@ -131,7 +131,6 @@ errorbar(V_mean, Alpha_mean, Alpha_std, Alpha_std, V_std, V_std, 'o', ...
 xlabel('$V$ [$\mu$L]');
 ylabel('$\alpha_{\star}$ [$^{\circ}$]');
 set(gca, 'fontsize', 18, 'fontname', 'Times', 'LineWidth', 0.5);
-grid on;
 hold on;
 plot(V, alpha_opt, '--k', 'linewidth', 0.5);
 plot(V, Asymptot , '--k', 'linewidth', 0.5);
@@ -181,14 +180,13 @@ end
 FIG_volume3 = figure(3);
 set(FIG_volume3, 'defaulttextinterpreter','latex');
 errorbar(V_mean, Alpha_mean, Alpha_std, Alpha_std, V_std, V_std, 'o', ...
-         'color', [0.898, 0.5843, 0], 'CapSize', 4, 'markersize', 6, 'LineWidth', 1.2);
+         'color', pigment_color, 'CapSize', 4, 'markersize', 6, 'LineWidth', 1.2);
 xlabel('$V$ [$\mu$L]');
 ylabel('$\alpha_{\star}$ [$^{\circ}$]');
 set(gca, 'fontsize', 18, 'fontname', 'Times', 'LineWidth', 0.5);
-grid on;
 hold on;
 plot(V, alpha_real, '-k', 'linewidth', 1);
-legend('Experimental', 'Inverse regression', 'fontsize', 16)
+legend('Experimental', 'Inerse regression', 'fontsize', 16)
 plot(V, alpha_opt_2, '--k', 'linewidth', 0.5);
 plot(V, Asymptot , '--k', 'linewidth', 0.5);
 ylim([10 100]);
